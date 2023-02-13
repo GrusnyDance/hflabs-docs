@@ -1,6 +1,6 @@
 # на моем линуксе докер запускается c docker compose, без dash
 run:
-	docker compose up -d --build --force-recreate
+	docker-compose up -d --build --force-recreate
 
 run_not_detached:
 	docker-compose up --build --force-recreate
