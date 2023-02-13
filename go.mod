@@ -3,6 +3,7 @@ module hflabs-docs
 go 1.19
 
 require (
+	github.com/PuerkitoBio/goquery v1.8.0
 	github.com/joho/godotenv v1.5.1
 	golang.org/x/oauth2 v0.5.0
 	google.golang.org/api v0.109.0
@@ -11,6 +12,7 @@ require (
 require (
 	cloud.google.com/go/compute v1.14.0 // indirect
 	cloud.google.com/go/compute/metadata v0.2.3 // indirect
+	github.com/andybalholm/cascadia v1.3.1 // indirect
 	github.com/golang/groupcache v0.0.0-20200121045136-8c9f03a8e57e // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/google/uuid v1.3.0 // indirect

@@ -1,10 +1,7 @@
-package main
+package update_googledoc
 
 import (
-	"context"
 	b64 "encoding/base64"
-	"fmt"
-	"github.com/joho/godotenv"
 	"golang.org/x/oauth2/google"
 	"google.golang.org/api/option"
 	"google.golang.org/api/sheets/v4"
@@ -12,11 +9,8 @@ import (
 	"os"
 )
 
-func main() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal(err)
-	}
+func googledoc() {
+
 	// create api context
 	ctx := context.Background()
 
@@ -44,17 +38,8 @@ func main() {
 		return
 	}
 
-	// https://docs.google.com/spreadsheets/d/1ycwnwKE9SKdiYTtBhIR2qpUsr1OH0s1279YMvN6-deg/edit#gid=0
 	sheetId := 0
 	spreadsheetId := "1ycwnwKE9SKdiYTtBhIR2qpUsr1OH0s1279YMvN6-deg"
-
-	// Clear content of whole list
-	rb := &sheets.ClearValuesRequest{}
-	_, err = srv.Spreadsheets.Values.Clear(spreadsheetId, "List1", rb).Do()
-	if err != nil {
-		log.Println(err)
-		return
-	}
 
 	// Convert sheet ID to sheet name.
 	response1, err := srv.Spreadsheets.Get(spreadsheetId).Fields("sheets(properties(sheetId,title))").Do()
@@ -64,6 +49,14 @@ func main() {
 	}
 	sheetName := response1.Sheets[sheetId].Properties.Title
 
+	// Clear content of whole list
+	rb := &sheets.ClearValuesRequest{}
+	_, err = srv.Spreadsheets.Values.Clear(spreadsheetId, sheetName, rb).Do()
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
 	//Append value to the sheet.
 	row := &sheets.ValueRange{
 		Values: [][]interface{}{{"1", "ABC", "abc@gmail.com"}},
@@ -71,7 +64,7 @@ func main() {
 
 	response2, err := srv.Spreadsheets.Values.Append(spreadsheetId, sheetName, row).ValueInputOption("USER_ENTERED").InsertDataOption("INSERT_ROWS").Context(ctx).Do()
 	if err != nil || response2.HTTPStatusCode != 200 {
-		fmt.Println(err, "line 75")
+		log.Println(err)
 		return
 	}
 }
