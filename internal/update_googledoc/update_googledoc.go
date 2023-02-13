@@ -10,11 +10,13 @@ import (
 	"hflabs-docs/internal/entities"
 	"os"
 	"strconv"
+	"time"
 )
 
 func RefreshDoc(table *entities.Table) error {
 	// create api context
-	ctx := context.Background()
+	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(time.Second*20))
+	defer cancel()
 
 	config, err := authenticate()
 	if err != nil {

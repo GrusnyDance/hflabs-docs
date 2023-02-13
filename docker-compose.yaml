@@ -1,0 +1,10 @@
+version: '3'
+services:
+  app:
+    image: hflabs-docs
+    container_name: hi-hflabs
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    tty: true
