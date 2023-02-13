@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/PuerkitoBio/goquery"
 	"hflabs-docs/internal/entities"
+	"jaytaylor.com/html2text"
 	"net/http"
 	"os"
 	"strings"
@@ -28,27 +29,27 @@ func ParsePage() (*entities.Table, error) {
 	}
 
 	table := new(entities.Table)
-	table.PageTitle = GetPageTitle(doc)
+	table.PageTitle = getPageTitle(doc)
 	if table.PageTitle == "" {
 		return nil, fmt.Errorf("%s", "cannot parse page title")
 	}
 
-	table.TitleFirstCol, table.TitleSecCol = GetTableTitle(doc)
+	table.TitleFirstCol, table.TitleSecCol = getTableTitle(doc)
 	if table.TitleFirstCol == "" || table.TitleSecCol == "" {
 		return nil, fmt.Errorf("%s", "cannot parse table title")
 	}
 
-	table.Responses, err = GetTableRows(doc)
+	table.Responses = getTableRows(doc)
 	return table, nil
 }
 
-func GetPageTitle(doc *goquery.Document) string {
+func getPageTitle(doc *goquery.Document) string {
 	pageTitle := doc.Find("div#title-heading").Find("h1#title-text").Text()
 	ret := strings.Trim(pageTitle, "\n ")
 	return ret
 }
 
-func GetTableTitle(doc *goquery.Document) (string, string) {
+func getTableTitle(doc *goquery.Document) (string, string) {
 	var leftColTitle, rightColTitle string
 	str := doc.Find("div#main-content").Find("thead").Find("th")
 	str.Each(func(i int, s *goquery.Selection) {
@@ -62,6 +63,21 @@ func GetTableTitle(doc *goquery.Document) (string, string) {
 	return leftColTitle, rightColTitle
 }
 
-func GetTableRows() (*[]entities.Response, error) {
-
+func getTableRows(doc *goquery.Document) *[]entities.Response {
+	responses := make([]entities.Response, 0)
+	str := doc.Find("div#main-content").Find("tbody").Find("tr")
+	str.Each(func(i int, selector *goquery.Selection) {
+		var singleResponse entities.Response
+		selector.Find("td").Each(func(j int, innerSelector *goquery.Selection) {
+			if j == 0 {
+				singleResponse.Code = innerSelector.Text()
+			} else {
+				localHtml, _ := innerSelector.Html()
+				plain, _ := html2text.FromString(localHtml, html2text.Options{PrettyTables: true})
+				singleResponse.Description = plain
+			}
+		})
+		responses = append(responses, singleResponse)
+	})
+	return &responses
 }

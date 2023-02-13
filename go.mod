@@ -7,6 +7,7 @@ require (
 	github.com/joho/godotenv v1.5.1
 	golang.org/x/oauth2 v0.5.0
 	google.golang.org/api v0.109.0
+	jaytaylor.com/html2text v0.0.0-20211105163654-bc68cce691ba
 )
 
 require (
@@ -18,6 +19,9 @@ require (
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/googleapis/enterprise-certificate-proxy v0.2.1 // indirect
 	github.com/googleapis/gax-go/v2 v2.7.0 // indirect
+	github.com/mattn/go-runewidth v0.0.9 // indirect
+	github.com/olekukonko/tablewriter v0.0.5 // indirect
+	github.com/ssor/bom v0.0.0-20170718123548-6386211fdfcf // indirect
 	go.opencensus.io v0.24.0 // indirect
 	golang.org/x/net v0.6.0 // indirect
 	golang.org/x/sys v0.5.0 // indirect
