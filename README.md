@@ -1,5 +1,5 @@
-## Тестовое задание для HFLabs
-[Cсылка](https://docs.google.com/document/d/1w4wTqvP4coGwCKstok9A1uo40ToYfxJD7aCBXV9RTB8/edit) на тестовое + [ссылка](https://confluence.hflabs.ru/pages/viewpage.action?pageId=1181220999) на базу знаний
+## HFLabs
+[Ссылка](https://confluence.hflabs.ru/pages/viewpage.action?pageId=1181220999) на базу знаний
 
 
 ![task](./screens/screen.png)
